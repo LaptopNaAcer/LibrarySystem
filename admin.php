@@ -28,6 +28,7 @@
 					<label class = "text-muted"><?php require'account.php'; echo $name;?></label>
 				</div>
 				<hr style = "border:1px dotted #d3d3d3;"/>
+				<!----Comment----->
 				<ul id = "menu" class = "nav menu">
 					<li><a style = "font-size:18px; border-bottom:1px solid #d3d3d3;" href = "home.php"><i class = "glyphicon glyphicon-home"></i> Home</a></li>
 					<li><a style = "font-size:18px; border-bottom:1px solid #d3d3d3;" href = ""><i class = "glyphicon glyphicon-tasks"></i> Accounts</a>

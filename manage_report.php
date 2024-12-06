@@ -1,12 +1,58 @@
 <!DOCTYPE html>
 <?php
 	require_once 'valid.php';
+
+	require('../../libs/fpdf.php');  // Include FPDF library
+
+	try {
+		$db = getDbConnection();
+
+		// Fetch today's borrow and return counts
+		$today = date('Y-m-d');
+		$stmtBorrowed = $db->prepare("SELECT COUNT(*) as borrowed_books FROM borrow WHERE date_borrow = :today");
+		$stmtBorrowed->bindParam(':today', $today);
+		$stmtBorrowed->execute();
+		$borrowedBooks = $stmtBorrowed->fetch(PDO::FETCH_ASSOC)['borrowed_books'];
+
+		$stmtReturned = $db->prepare("SELECT COUNT(*) as returned_books FROM returns WHERE date_return = :today");
+		$stmtReturned->bindParam(':today', $today);
+		$stmtReturned->execute();
+		$returnedBooks = $stmtReturned->fetch(PDO::FETCH_ASSOC)['returned_books'];
+
+	} catch (PDOException $e) {
+		die("Database error: " . $e->getMessage());
+	}
+
+	if (isset($_POST['generate_report'])) {
+		// Generate PDF when the button is clicked
+		$pdf = new FPDF();
+		$pdf->AddPage();
+		
+		// Set font
+		$pdf->SetFont('Arial', 'B', 16);
+		
+		// Title
+		$pdf->Cell(200, 10, 'Library Borrow and Return Report', 0, 1, 'C');
+		$pdf->Ln(10);
+		
+		// Borrowed Books
+		$pdf->SetFont('Arial', '', 12);
+		$pdf->Cell(100, 10, "Books Borrowed Today: " . $borrowedBooks, 0, 1);
+		
+		// Returned Books
+		$pdf->Cell(100, 10, "Books Returned Today: " . $returnedBooks, 0, 1);
+		
+		// Output PDF
+		$pdf->Output('D', 'BorrowReturnReport_' . $today . '.pdf');
+		exit;
+	}
 ?>	
 <html lang = "eng">
 	<head>
 		<title>Library System</title>
 		<meta charset = "utf-8" />
 		<meta name = "viewport" content = "width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="../../assets/CSS/report.css">
 		<link rel = "stylesheet" type = "text/css" href = "css/bootstrap.css" />
 		<style>
 			body {
@@ -79,7 +125,16 @@
 		<!-- Main Content -->
 		<div class="content">
 			<div class="col-lg-12 well">
-				<img src = "images/back2.jpg" height = "400px" width = "100%" />
+				<div class="main-content">
+				<h3>Books Borrowed and Returned Today</h3>
+				<p>Books Borrowed Today: <?php echo $borrowedBooks; ?></p>
+				<p>Books Returned Today: <?php echo $returnedBooks; ?></p>
+				
+				<!-- Button to generate the PDF report -->
+				<form method="POST" action="reports.php">
+					<button type="submit" name="generate_report" id="reportbtn">Generate PDF Report</button>
+				</form>
+        		</div>
 			</div>
 		</div>
 

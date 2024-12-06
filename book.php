@@ -172,6 +172,7 @@
 			<div class="col-lg-12 well">
 				<div class="alert alert-info">Book</div>
 				<button id="add_book" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add new</button>
+				<button id="manage_book" type="button" class="btn btn-warning" onclick="location.href='/manage_report.php'"><span class="glyphicon glyphicon-folder-open"></span>  Manage Report</button>
 				<button id="show_book" type="button" style="display:none;" class="btn btn-success"><span class="glyphicon glyphicon-circle-arrow-left"></span> Back</button>
 				<br />
 				<br />

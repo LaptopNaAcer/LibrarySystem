@@ -1,52 +1,43 @@
-<!DOCTYPE html>
 <?php
-	require_once 'valid.php';
+require_once 'valid.php';
 
-	require('../../libs/fpdf.php');  // Include FPDF library
+require('libs/fpdf.php');  // Include FPDF library
 
-	try {
-		$db = getDbConnection();
+// First query for counting borrowed books with 'Borrowed' status
+$status = 'Borrowed';  // Set status to 'Borrowed'
+$stmtBorrowed = $conn->query("SELECT COUNT(*) as borrowed_books FROM borrowing WHERE status = '$status'");
+$borrowedBooks = $stmtBorrowed->fetch_assoc()['borrowed_books'];  // Fetch result
 
-		// Fetch today's borrow and return counts
-		$today = date('Y-m-d');
-		$stmtBorrowed = $db->prepare("SELECT COUNT(*) as borrowed_books FROM borrow WHERE date_borrow = :today");
-		$stmtBorrowed->bindParam(':today', $today);
-		$stmtBorrowed->execute();
-		$borrowedBooks = $stmtBorrowed->fetch(PDO::FETCH_ASSOC)['borrowed_books'];
+// Second query for counting returned books with 'Returned' status
+$status = 'Returned';  // Set status to 'Returned'
+$stmtReturned = $conn->query("SELECT COUNT(*) as returned_books FROM borrowing WHERE status = '$status'");
+$returnedBooks = $stmtReturned->fetch_assoc()['returned_books'];  // Fetch result
 
-		$stmtReturned = $db->prepare("SELECT COUNT(*) as returned_books FROM returns WHERE date_return = :today");
-		$stmtReturned->bindParam(':today', $today);
-		$stmtReturned->execute();
-		$returnedBooks = $stmtReturned->fetch(PDO::FETCH_ASSOC)['returned_books'];
-
-	} catch (PDOException $e) {
-		die("Database error: " . $e->getMessage());
-	}
-
-	if (isset($_POST['generate_report'])) {
-		// Generate PDF when the button is clicked
-		$pdf = new FPDF();
-		$pdf->AddPage();
-		
-		// Set font
-		$pdf->SetFont('Arial', 'B', 16);
-		
-		// Title
-		$pdf->Cell(200, 10, 'Library Borrow and Return Report', 0, 1, 'C');
-		$pdf->Ln(10);
-		
-		// Borrowed Books
-		$pdf->SetFont('Arial', '', 12);
-		$pdf->Cell(100, 10, "Books Borrowed Today: " . $borrowedBooks, 0, 1);
-		
-		// Returned Books
-		$pdf->Cell(100, 10, "Books Returned Today: " . $returnedBooks, 0, 1);
-		
-		// Output PDF
-		$pdf->Output('D', 'BorrowReturnReport_' . $today . '.pdf');
-		exit;
-	}
-?>	
+if (isset($_POST['generate_report'])) {
+	// Generate PDF when the button is clicked
+	$pdf = new FPDF();
+	$pdf->AddPage();
+	
+	// Set font
+	$pdf->SetFont('Arial', 'B', 16);
+	
+	// Title
+	$pdf->Cell(200, 10, 'ReadHub Initial Report', 0, 1, 'C');
+	$pdf->Ln(10);
+	
+	// Borrowed Books
+	$pdf->SetFont('Arial', '', 12);
+	$pdf->Cell(100, 10, "Books Borrowed Today: " . $borrowedBooks, 0, 1);
+	
+	// Returned Books
+	$pdf->Cell(100, 10, "Books Returned Today: " . $returnedBooks, 0, 1);
+	
+	// Output PDF
+	$pdf->Output('D', 'BorrowReturnReport_' . '.pdf');
+	exit;
+}
+?>
+<!DOCTYPE html>
 <html lang = "eng">
 	<head>
 		<title>Library System</title>
@@ -131,7 +122,7 @@
 				<p>Books Returned Today: <?php echo $returnedBooks; ?></p>
 				
 				<!-- Button to generate the PDF report -->
-				<form method="POST" action="reports.php">
+				<form method="POST" action="manage_report.php">
 					<button type="submit" name="generate_report" id="reportbtn">Generate PDF Report</button>
 				</form>
         		</div>

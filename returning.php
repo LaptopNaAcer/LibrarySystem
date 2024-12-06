@@ -4,38 +4,103 @@
 ?>  
 <html lang="eng">
 <head>
-    <title>Library System - Returning</title>
+    <title>ReadHub - Library System</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css" />
-    <link rel="stylesheet" type="text/css" href="css/chosen.min.css" />
     <style>
         body {
-            background-color: #d3d3d3;
+            background-color: #f4f4f4;
             padding-top: 60px;
+            font-family: 'Arial', sans-serif;
+        }
+        .navbar {
+            background-color: #2c3e50;
+            border: none;
+        }
+        .navbar .navbar-text {
+            color: #ecf0f1;
+            font-weight: bold;
+        }
+        .navbar .navbar-header img {
+            border-radius: 50%;
         }
         .sidebar {
+            height: 100vh;
+            overflow-y: auto;
             position: fixed;
             top: 60px;
             left: 0;
             width: 16.6667%;
-            height: 100vh;
-            background-color: #fff;
-            border-right: 1px solid #d3d3d3;
-            overflow-y: auto;
+            background-color: #34495e;
+            color: #ecf0f1;
+            border-right: 1px solid #bdc3c7;
+        }
+        .sidebar a {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+            border-bottom: 1px solid #34495e;
+        }
+        .sidebar a:hover {
+            background-color: #1abc9c;
+            color: #fff;
         }
         .content {
             margin-left: 16.6667%;
+            padding: 20px;
+        }
+        .well {
+            background-color: #ffffff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .table-bordered {
+            border: 1px solid #bdc3c7;
+        }
+        .table thead {
+            background-color: #2c3e50;
+            color: #fff;
+        }
+        .table tbody tr:hover {
+            background-color: #ecf0f1;
+        }
+        .btn-primary {
+            background-color: #1abc9c;
+            border: none;
+            font-weight: bold;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background-color: #16a085;
+        }
+        .navbar-fixed-bottom {
+            background-color: #2c3e50;
+            border: none;
+        }
+        .navbar-fixed-bottom .navbar-text {
+            color: #ecf0f1;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                top: 0;
+            }
+            .content {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <img src="images/logo.png" width="50px" height="50px" />
-                <h4 class="navbar-text navbar-right">Library System</h4>
+                <h4 class="navbar-text navbar-right">ReadHub - Returning</h4>
             </div>
         </div>
     </nav>
@@ -44,10 +109,11 @@
     <div class="sidebar">
         <div class="container-fluid text-center">
             <img src="images/user.png" width="50px" height="50px" />
-            <br /><br />
+            <br />
+            <br />
             <label class="text-muted"><?php require 'account.php'; echo $name; ?></label>
         </div>
-        <hr style="border: 1px dotted #d3d3d3;" />
+        <hr style="border: 1px dotted #34495e;" />
         <ul id="menu" class="nav menu">
             <li><a href="home.php"><i class="glyphicon glyphicon-home"></i> Home</a></li>
             <li><a href="borrowing.php"><i class="glyphicon glyphicon-random"></i> Borrowing</a></li>
@@ -95,11 +161,7 @@
                                 ?>
                             </td>
                             <td>
-                                <?php
-                                    $qbook = $conn->query("SELECT * FROM `book` WHERE `book_id` = '{$freturn['book_id']}'") or die(mysqli_error());
-                                    $fbook = $qbook->fetch_array();
-                                    echo $fbook['book_author'];
-                                ?>
+                                <?php echo $fbook['book_author']; ?>
                             </td>
                             <td><?php echo $freturn['status'] ?></td>
                             <td><?php echo date("m-d-Y", strtotime($freturn['date'])) ?></td>
@@ -130,10 +192,7 @@
 
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.js"></script>
-    <script src="js/login.js"></script>
-    <script src="js/sidebar.js"></script>
     <script src="js/jquery.dataTables.js"></script>
-    <script src="js/chosen.jquery.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             $('#table').DataTable();

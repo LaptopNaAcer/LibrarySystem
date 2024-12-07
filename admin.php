@@ -209,6 +209,37 @@
 								</tbody>
 							</table>
 						</div>
+						<div id = "admin_form" style = "display:none;">
+							<div class = "col-lg-3"></div>
+								<div class = "col-lg-6">
+									<form method = "POST" action = "save_admin_query.php" enctype = "multipart/form-data">
+										<div class = "form-group">
+											<label>Username:</label>
+											<input type = "text" required = "required" name = "username" class = "form-control" />
+										</div>	
+										<div class = "form-group">	
+											<label>Password:</label>
+											<input type = "password" maxlength = "12" name = "password" required = "required" class = "form-control" />
+										</div>	
+										<div class = "form-group">	
+											<label>Firstname:</label>
+											<input type = "text" name = "firstname" required = "required" class = "form-control" />
+										</div>	
+										<div class = "form-group">	
+											<label>Middlename:</label>
+											<input type = "text" name = "middlename" placeholder = "(Optional)" class = "form-control" />
+										</div>	
+										<div class = "form-group">	
+											<label>Lastname:</label>
+											<input type = "text" required = "required" name = "lastname" class = "form-control" />
+										</div>
+										<div class = "form-group">	
+											<button class = "btn btn-primary" name = "save_admin"><span class = "glyphicon glyphicon-save"></span> Submit</button>
+										</div>
+									</form>		
+								</div>	
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

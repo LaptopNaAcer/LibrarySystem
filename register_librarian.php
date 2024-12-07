@@ -140,27 +140,35 @@
     <div class="register-container">
         <div class="register-card">
             <h4>ReadHub Registration</h4>
-            <form id="frm-register" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="fullname">Full Name</label>
-                    <input type="text" class="form-control" id="fullname" placeholder="Enter your full name" required>
+                <div class = "col-lg-3"></div>
+                    <div class = "col-lg-6">
+                        <form method = "POST" action = "register_process.php" enctype = "multipart/form-data">
+                            <div class = "form-group">
+                                <label>Username:</label>
+                                <input type = "text" required = "required" name = "username" class = "form-control" />
+                            </div>	
+                            <div class = "form-group">	
+                                <label>Password:</label>
+                                <input type = "password" maxlength = "12" name = "password" required = "required" class = "form-control" />
+                            </div>	
+                            <div class = "form-group">	
+                                <label>Firstname:</label>
+                                <input type = "text" name = "firstname" required = "required" class = "form-control" />
+                            </div>	
+                            <div class = "form-group">	
+                                <label>Middlename:</label>
+                                <input type = "text" name = "middlename" placeholder = "(Optional)" class = "form-control" />
+                            </div>	
+                            <div class = "form-group">	
+                                <label>Lastname:</label>
+                                <input type = "text" required = "required" name = "lastname" class = "form-control" />
+                            </div>
+                            <div class = "form-group">	
+                                <button class = "btn btn-primary" name = "save_admin"><span class = "glyphicon glyphicon-save"></span> Submit</button>
+                            </div>
+                        </form>		
+                    </div>	
                 </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
-                </div>
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" placeholder="Enter your username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
-                </div>
-                <button type="submit" id="register" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-user"></span> Register
-                </button>
-            </form>
             <a href="index.php" style="text-color:white;"><h3>Already registered?</h3></a>
             <div id="result"></div>
         </div>
@@ -176,15 +184,16 @@
     $(document).ready(function() {
         $('#frm-register').submit(function(e) {
             e.preventDefault();
-            const fullname = $('#fullname').val();
-            const email = $('#email').val();
+            const first_name = $('#first_name').val();
+            const middle_name = $('#middle_name').val();
+            const last_name = $('#last_name').val();
             const username = $('#username').val();
             const password = $('#password').val();
 
             $.ajax({
                 url: 'register_process.php',
                 type: 'POST',
-                data: { fullname, email, username, password },
+                data: { first_name, middle_name, last_name, username, password },
                 success: function(response) {
                     $('#result').html('<div class="alert alert-success">Registration successful!</div>');
                     $('#frm-register')[0].reset();

@@ -10,6 +10,9 @@
 	$status = 'Returned';  // Set status to 'Returned'
 	$stmtReturned = $conn->query("SELECT COUNT(*) as returned_books FROM borrowing WHERE status = '$status'");
 	$returnedBooks = $stmtReturned->fetch_assoc()['returned_books'];  // Fetch result
+
+	$stmtTotal = $conn->query("SELECT COUNT(*) as total_books FROM book");
+	$totalBooks = $stmtTotal->fetch_assoc()['total_books'];  // Fetch result
 ?>	
 <html lang="eng">
 	<head>
@@ -203,10 +206,7 @@
 		</div>
 
 		<!-- Main Content -->
-		<div class="main-content">
-			<div class="panel-body">
-			
-			</div>
+		<div class="main-content d-flex flex-row">
 
 			<div class="card cards card-2 text-center border" style="width: 18rem;">
 			<div class="card-body">
@@ -215,9 +215,16 @@
 			</div>
 			</div>
 			
-			<div class="card cards card-2 text-center border" style="width: 18rem;">
+			<div class="card cards card-2 text-center border p-2" style="width: 18rem;">
 			<div class="card-body">
-				<h5 class="card-title">Total Books Borrowed: </h5>
+				<h5 class="card-title">Total Books Returned: </h5>
+				<h1><?php echo $returnedBooks; ?></h1>
+			</div>
+			</div>
+			
+			<div class="card cards card-2 text-center border p-2" style="width: 18rem;">
+			<div class="card-body">
+				<h5 class="card-title">Total of Books:</h5>
 				<h1><?php echo $returnedBooks; ?></h1>
 			</div>
 			</div>

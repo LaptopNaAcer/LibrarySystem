@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 06, 2024 at 03:51 PM
+-- Generation Time: Dec 07, 2024 at 04:20 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -35,15 +35,17 @@ CREATE TABLE IF NOT EXISTS `admin` (
   `firstname` varchar(30) NOT NULL,
   `middlename` varchar(30) NOT NULL,
   `lastname` varchar(30) NOT NULL,
+  `roles` varchar(1000) NOT NULL,
   PRIMARY KEY (`admin_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`admin_id`, `username`, `password`, `firstname`, `middlename`, `lastname`) VALUES
-(1, 'admin', 'admin', 'Administrator', '', '');
+INSERT INTO `admin` (`admin_id`, `username`, `password`, `firstname`, `middlename`, `lastname`, `roles`) VALUES
+(1, 'admin', 'admin', 'Administrator', '', '', ''),
+(4, 'Grace15', '1234', 'JAN', 'VINCENT N.', 'JOSE', '');
 
 -- --------------------------------------------------------
 
@@ -114,14 +116,15 @@ CREATE TABLE IF NOT EXISTS `student` (
   `course` varchar(8) NOT NULL,
   `section` varchar(6) NOT NULL,
   PRIMARY KEY (`student_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `student`
 --
 
 INSERT INTO `student` (`student_id`, `student_no`, `firstname`, `middlename`, `lastname`, `course`, `section`) VALUES
-(1, '101054', 'Ruby', '', 'Diamon', 'BSIT', '2B');
+(1, '101054', 'Ruby', '', 'Diamon', 'BSIT', '2B'),
+(2, 'he', 'he', 'he', 'he', 'Heavy Eq', '1');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
